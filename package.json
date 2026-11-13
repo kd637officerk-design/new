@@ -1,0 +1,81 @@
+{
+  "name": "skeletor-video",
+  "version": "1.0.0",
+  "description": "Skeletor Video - a local video and music library player",
+  "main": "electron/main.cjs",
+  "author": {
+    "name": "Skeletor Video",
+    "email": "you@example.com"
+  },
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win nsis --publish never"
+  },
+  "devDependencies": {
+    "electron": "^32.3.3",
+    "electron-builder": "^25.1.8",
+    "@capacitor/cli": "^6.2.1"
+  },
+  "build": {
+    "appId": "com.skeletor.video",
+    "productName": "Skeletor Video",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "www/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "www/assets/icon.ico",
+      "signAndEditExecutable": true,
+      "legalTrademarks": "Skeletor Video"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "perMachine": false,
+      "artifactName": "Skeletor-Video-Setup-${version}.${ext}",
+      "shortcutName": "Skeletor Video",
+      "installerIcon": "www/assets/icon.ico",
+      "uninstallerIcon": "www/assets/icon.ico"
+    },
+    "fileAssociations": [
+      {
+        "ext": [
+          "mp4",
+          "mkv",
+          "avi",
+          "mov",
+          "wmv",
+          "webm",
+          "m4v",
+          "mpeg",
+          "mpg",
+          "ts",
+          "mp3",
+          "m4a",
+          "wav",
+          "flac",
+          "ogg"
+        ],
+        "name": "Skeletor Video Media",
+        "role": "Viewer"
+      }
+    ],
+    "copyright": "Copyright © 2026 Skeletor Video"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.2.1",
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/app": "^6.0.2"
+  },
+  "homepage": "https://github.com/YOUR-USER/skeletor-video"
+}
