@@ -6,21 +6,18 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    env:
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: {node-version: 20}
       - run: npm install
-
-      - name: Build signed installer
-        if: ${{ env.AZURE_CLIENT_ID != '' }}
+      - run: npm run dist:win
+      - name: SHA-256 checksums
         shell: pwsh
-        run: >
-          npx electron-builder --win nsis --publish never
-          -c.win.azureSignOptions.publisherName="${{ vars.SIGN_PUBLISHER_NAME }}"
-          -c.win.azureSignOptions.endpoint="${{ vars.SIGN_ENDPOINT }}"
-          -c.win.azureSignOptions.certifi
+        run: Get-FileHash dist\*.exe -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  $(Split-Path $_.Path -Leaf)" } | Out-File dist\SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Skeletor-Video-Windows-11
+          path: |
+            dist/*.exe
+            dist/SHA256SUMS.txt
